@@ -7,11 +7,16 @@
 </script>
 
 <TailwindCss />
-<main class="flex flex-col flex-grow justify-center z-10">
-	<Header />
-	<slot />
-</main>
-<Dotbar />
+<div class="flex flex-col min-h-screen">
+    <main class="flex flex-col flex-grow">
+        <Header />
+        <!-- Slot container to extend down as far as possible -->
+        <div class="flex flex-col flex-grow">
+            <slot />
+        </div>
+    </main>
+    <Dotbar />
+</div>
 
 <style>
 	main {
