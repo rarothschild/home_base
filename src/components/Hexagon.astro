@@ -1,0 +1,5 @@
+---
+const { color } = Astro.props; // Optional: Pass color as a prop
+---
+
+<div class="hex" style={`background-color: ${color || '#FF6347'}`}></div>
