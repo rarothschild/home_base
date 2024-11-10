@@ -1,0 +1,90 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+
+import '../styles/global.css';
+
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+			crossorigin="anonymous"
+		/>
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="flex flex-col absolute left-1/2 transform -translate-x-1/2 max-w-5xl w-full
+			text-white p-8">
+		<!-- Header -->
+		<div class="flex justify-between w-full">
+			<!-- Name & Nav -->
+			<div class="flex place-items-end gap-8">
+				<h1 class="font-bold text-4xl">Rob Rothschild</h1>
+				<nav class="flex border-2 border-b-0 border-zinc-500">
+					<a href="/" class="block px-3 py-1 font-bold text-lg
+						bg-stone-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Home</a>
+					<a href="/portfolio/base_defender" class="block px-3 py-1 font-bold text-lg
+						bg-stone-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Portfolio</a>
+				</nav>
+			</div>
+			<!-- Icons -->
+			<div class="flex gap-2 place-items-end">
+				<a href="" class="w-6 h-6">
+					<span class="icon "><i class="fab fa-github fa-xl"></i></span>
+				</a>
+				<a href="" class="flex button is-small is-linkedin">
+					<span class="icon"><i class="fab fa-linkedin fa-xl"></i></span>
+				</a>
+				<a href="" class="flex button is-small is-instagram">
+					<span class="icon"><i class="fab fa-instagram fa-xl"></i></span>
+				</a>
+			</div>
+		</div>
+		<!-- Content -->
+		<main class="w-full h-full border-2 border-zinc-500">
+			<slot />
+		</main>
+	</body>
+</html>
+<style is:global>
+	:root {
+		--accent: 136, 58, 234;
+		--accent-light: 224, 204, 250;
+		--accent-dark: 49, 10, 101;
+		--accent-gradient: linear-gradient(
+			45deg,
+			rgb(var(--accent)),
+			rgb(var(--accent-light)) 30%,
+			white 60%
+		);
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background: #414c6d;
+	}
+	main {
+		background: #13151a;
+	}
+	code {
+		font-family:
+			Menlo,
+			Monaco,
+			Lucida Console,
+			Liberation Mono,
+			DejaVu Sans Mono,
+			Bitstream Vera Sans Mono,
+			Courier New,
+			monospace;
+	}
+</style>

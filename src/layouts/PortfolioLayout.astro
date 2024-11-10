@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Portfolio">
+	<div class="flex flex-col w-full h-full">
+		<div class="flex h-48 w-full divide-x-2 divide-zinc-400 border-b-2 border-zinc-500">
+			<div class="flex flex-col divide-y-2 divide-zinc-400">
+				<p class="pl-1 font-bold text-base w-full bg-slate-900">Pick an Item:</p>
+				<nav class="flex flex-col w-96 h-full overflow-hidden text-sm divide-y divide-zinc-400 overflow-y-scroll">
+					<a href="/portfolio/base_defender" class="block px-3 py-1 font-bold
+							bg-stone-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Base Defender [C++ Game]</a>
+					<a href="/portfolio/simulytics" class="block px-3 py-1 font-bold
+							bg-stone-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Simulytics [Django/SvelteKit]</a>
+					<a href="/portfolio/test_interface" class="block px-3 py-1 font-bold
+							bg-stone-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Test/FEA Interface [MATLAB]</a>
+					<a href="/portfolio/stock_trading" class="block px-3 py-1 font-bold
+							bg-stone-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Stock Trading [Python]</a>
+					<a href="/portfolio/londonderry_quarry" class="block px-3 py-1 font-bold
+							bg-stone-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Londonderry Quarry [JS/Astro Site]</a>
+				</nav>
+			</div>
+			<slot name="description"></slot>
+		</div>
+		<slot></slot>
+	</div>
+</Layout>

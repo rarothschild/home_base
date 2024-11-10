@@ -1,0 +1,18 @@
+---
+import PortfoloLayout from '../../layouts/PortfolioLayout.astro';
+import { Fragment } from 'astro/jsx-runtime';
+
+---
+
+<PortfoloLayout title="Welcome to Astro.">
+	<Fragment slot="description">
+		<div class="flex flex-col p-2 gap-2">
+			<h1 class="font-bold text-xl">Base Defender</h1>
+			<p> Fly the ship to ram the enemies or block their way with the spikes. Dont let them reach your base!</p>
+			<p>This C++ game was a fun project to hone my skills and practice feedback and controls.</p>
+		</div>
+	</Fragment>
+	<div class="flex w-full overflow-x-hidden ">
+		<iframe src="/lunar_lander/lunar_lander.html" class="flex flex-col h-96 w-full"></iframe>
+	</div>
+</PortfoloLayout>
