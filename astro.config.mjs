@@ -3,7 +3,7 @@ import tailwind from '@astrojs/tailwind';
 import vercelStatic from '@astrojs/vercel/static';
 
 export default defineConfig({
-  site: 'https://robrothschild.com',
+  site: 'https://www.robrothschild.com',
   integrations: [tailwind()],
   // Vercel things
   output: 'static',
