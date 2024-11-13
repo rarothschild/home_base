@@ -28,21 +28,21 @@ const cols = 40
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 	</head>
-	<body class="h-full overflow-x-clip">
-		<div class="flex flex-col p-4 w-full overflow-y-auto 
+	<body class="relative overflow-x-clip">
+		<div class="flex flex-col p-4 pt-8 w-full overflow-y-auto 
 					absolute left-1/2 transform -translate-x-1/2 max-w-5xl 
 					text-white z-10">
 			<!-- Header -->
 			<div class="flex justify-between w-full">
 				<!-- Name & Nav -->
-				<div class="flex place-items-end gap-8">
+				<div class="flex place-items-end gap-6">
 					<h1 class="font-bold text-4xl text-black">Rob Rothschild</h1>
 					<nav class="flex border-2 border-b-0 border-zinc-300">
 						<a href="/" class="block px-4 py-0 font-bold text-lg
 							bg-stone-800 text-gray-200 hover:bg-gray-700 hover:text-white ">Home</a>
 						<a href="/portfolio/base_defender" class="block px-4 py-0 font-bold text-lg
 							bg-stone-800 text-gray-200 hover:bg-gray-700 hover:text-white ">Portfolio</a>
-						<a href="/portfolio/resume" class="block px-4 py-0 font-bold text-lg
+						<a href="/resume" class="block px-4 py-0 font-bold text-lg
 							bg-stone-800 text-gray-200 hover:bg-gray-700 hover:text-white ">Resume</a>
 					</nav>
 				</div>
@@ -60,7 +60,7 @@ const cols = 40
 				</div>
 			</div>
 			<!-- Content -->
-			<main class="w-full border-2 z-10 shadow-xl">
+			<main class="w-full border-2 z-10 shadow-2xl">
 				<slot />
 			</main>
 		</div>
@@ -100,6 +100,7 @@ const cols = 40
 		/* background: #1e1e31; */
 		background: linear-gradient(to bottom, #feb47b, #f87656); /* Orange */
 		/* background: linear-gradient(to bottom, #ff7e5f, #feb47b); Orange */
+		background-attachment: fixed
 	}
 	main {
 		background: #3c3f47;

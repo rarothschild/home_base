@@ -1,31 +1,40 @@
 ---
 import Layout from '../layouts/Layout.astro';
+const currentPath = Astro.url.pathname;
+
+const portfolio_links = [
+  { href: '/portfolio/base_defender', label: 'Base Defender [C++ Game]' },
+  { href: '/portfolio/simulytics', label: 'Simulytics [Django/SvelteKit]' },
+  { href: '/portfolio/test_interface', label: 'Test/FEA Interface [MATLAB]' },
+  { href: '/portfolio/stock_trading', label: 'Stock Trading [Python]' },
+  { href: '/portfolio/londonderry_quarry', label: 'Londonderry Quarry [JS/Astro Site]' },
+];
+
 ---
 
 <Layout title="Portfolio">
 	<div class="flex flex-col w-full h-full">
-		<div class="flex h-64 w-full divide-x-2 divide-zinc-400 border-b-2 border-zinc-500">
-			<div class="flex flex-col divide-y-2 divide-zinc-400">
-				<p class="p-1 px-3 font-bold text-base w-full bg-zinc-700">Pick an Item:</p>
-				<nav style="background: #6e767a"  class="flex flex-col w-96 h-full overflow-hidden text-sm 
-							divide-y divide-zinc-400 p-2 gap-1 overflow-y-scroll">
-					<a href="/portfolio/base_defender" class="block px-3 py-1 font-bold
-							bg-blue-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Base Defender [C++ Game]</a>
-					<a href="/portfolio/simulytics" class="block px-3 py-1 font-bold
-							bg-blue-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Simulytics [Django/SvelteKit]</a>
-					<a href="/portfolio/test_interface" class="block px-3 py-1 font-bold
-							bg-blue-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Test/FEA Interface [MATLAB]</a>
-					<a href="/portfolio/stock_trading" class="block px-3 py-1 font-bold
-							bg-blue-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Stock Trading [Python]</a>
-					<a href="/portfolio/londonderry_quarry" class="block px-3 py-1 font-bold
-							bg-blue-700 text-gray-300 hover:bg-gray-700 hover:text-white ">Londonderry Quarry [JS/Astro Site]</a>
+		<div class="flex h-64 w-full shadow-md divide-x-2 divide-zinc-400 border-b-2 border-zinc-400">
+			<div class="flex flex-col">
+				<p class="p-1 px-3 font-bold text-base w-full bg-[#6f7175] shadow-md">Pick an Item:</p>
+				<nav style="background: #262e31"  class="flex flex-col w-96 h-full overflow-hidden
+							 p-2 gap-1 overflow-y-scroll">
+					{portfolio_links.map((link) => (
+					<a href={link.href}
+						class={`p-2 ' ${
+						currentPath === link.href ? 'font-bold  text-gray-700 bg-blue-300 ' : 'font-bold text-white bg-[#1da0f2de]'
+						}`}
+					>
+						{link.label}
+					</a>
+					))}
 				</nav>
 			</div>
-			<div class="">
+			<div class="p-4 bg-zinc-700">
 				<slot name="description"></slot>
 			</div>
 		</div>
-		<div>
+		<div class="grid justify-items-center p-4 bg-zinc-500">
 			<slot></slot>
 		</div>
 	</div>
