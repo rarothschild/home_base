@@ -31,6 +31,10 @@ jobs:
           if [ -z "$NASA_API_KEY" ]; then
             echo "NASA_API_KEY is not set"
             exit 1
+          else
+            echo "NASA_API_KEY is set."
+            # Optionally, print the length of the API key without revealing it
+            echo "NASA_API_KEY length: ${#NASA_API_KEY}"
           fi
           mkdir -p src/data
           curl "https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}" -o src/data/apod.json
