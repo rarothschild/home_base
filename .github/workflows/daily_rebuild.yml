@@ -12,6 +12,7 @@ permissions:
 jobs:
   update-apod:
     runs-on: ubuntu-latest
+    environment: production
     env:
       NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
     steps:
