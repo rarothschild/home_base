@@ -5,6 +5,9 @@ on:
   schedule:
     - cron: '0 5 * * *'  # Runs every day at 5:00 AM UTC
 
+permissions:
+  contents: write
+  
 jobs:
   update-apod:
     runs-on: ubuntu-latest
@@ -29,6 +32,8 @@ jobs:
           curl "https://api.nasa.gov/planetary/apod?api_key=$NASA_API_KEY" -o src/data/apod.json
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
