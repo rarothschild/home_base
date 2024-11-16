@@ -26,11 +26,7 @@ bool shop_open = false;
 // Physics constants
 const double gravity = 0.05;
 
-// Rectangular object properties
-const double rect_width = 20;
-const double rect_height = 10;
-const double rect_air_resistance = 0.015;
-const double rect_ground_resistance = 0.03;
+
 
 // Ship properties
 const double ship_width = 20.0;
@@ -255,8 +251,8 @@ public:
         EM_ASM_({
             var ctx = Module.canvas.getContext('2d');
             // Draw the rope
-            ctx.strokeStyle = 'brown';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.moveTo($0, $1);
             ctx.lineTo($2, $3);
@@ -264,8 +260,13 @@ public:
         }, x, y + height / 2, end_x, end_y);
     }
 };
+Ship player_ship(canvas_width / 2, canvas_height - ground_height - ship_height / 2);
 
 // Block class
+const double rect_width = 20;
+const double rect_height = 10;
+const double rect_air_resistance = 0.015;
+const double rect_ground_resistance = 0.03;
 class Block : public PhysicalObject {
 public:
     int hp;
@@ -282,15 +283,14 @@ public:
         if (cooldown_counter > 0) {
             cooldown_counter--;
         }
-
         if (attached) {
-            // Position and velocities are being updated elsewhere
-            // Do nothing here
+            // Update position to be at the end of the rope
+            x = player_ship.x + player_ship.rope_length * sin(player_ship.rope_angle);
+            y = player_ship.y + player_ship.height / 2 + player_ship.rope_length * cos(player_ship.rope_angle);
         } else {
             // Reset accelerations
             ax = 0.0;
             ay = 0.0;
-
             // Update physics
             update_physics();
         }
@@ -341,12 +341,10 @@ public:
 std::vector<Enemy> enemies;
 
 // Global ship instance
-Ship player_ship(canvas_width / 2, canvas_height - ground_height - ship_height / 2);
 
 // Variables for upgrades
 double spike_damage_increase = 0.0; // Additional damage dealt by blocks to enemies
 
-// Restart game function
 void restart_game() {
     // Reset ship
     player_ship = Ship(canvas_width / 2, canvas_height - ground_height - ship_height / 2);
@@ -373,110 +371,6 @@ void restart_game() {
     money = 0;
     score = 0;
     level_number = 1;
-}
-
-// Input handling
-EM_BOOL keydown_callback(int eventType, const EmscriptenKeyboardEvent* e, void* userData) {
-    std::string key = e->key;
-
-    if (key == "ArrowUp") {
-        player_ship.isThrusting = true;
-    } else if (key == "ArrowLeft") {
-        player_ship.isThrustLeft = true;
-    } else if (key == "ArrowRight") {
-        player_ship.isThrustRight = true;
-    } else if (key == " " || key == "Space") { // Spacebar to release the block
-        if (attached_block != nullptr) {
-            attached_block->attached = false;
-            // Start cooldown counter
-            attached_block->cooldown_counter = 60; // 1 second at 60 FPS
-
-            // Compute the rope's end point velocities
-            double rope_end_vx = attached_block->vx;
-            double rope_end_vy = attached_block->vy;
-
-            // Set the block's velocity to match the rope's end point velocity
-            attached_block->vx = rope_end_vx;
-            attached_block->vy = rope_end_vy;
-
-            attached_block = nullptr;
-        }
-    } else if (key == "r") {
-        restart_game();
-    } else if (key == "t") {
-        enemies.emplace_back(canvas_width - enemy_width / 2, canvas_height - ground_height - enemy_height / 2, enemy_speed);
-    }
-    return EM_TRUE;
-}
-
-EM_BOOL keyup_callback(int eventType, const EmscriptenKeyboardEvent* e, void* userData) {
-    std::string key = e->key;
-
-    if (key == "ArrowUp") {
-        player_ship.isThrusting = false;
-    } else if (key == "ArrowLeft") {
-        player_ship.isThrustLeft = false;
-    } else if (key == "ArrowRight") {
-        player_ship.isThrustRight = false;
-    }
-    return EM_TRUE;
-}
-
-// Mouse click handling for shop buttons
-EM_BOOL mousedown_callback(int eventType, const EmscriptenMouseEvent* e, void* userData) {
-    if (player_ship.game_over) {
-        int mouseX = e->clientX;
-        int mouseY = e->clientY;
-
-        // Restart button dimensions (same as in draw_game_over_screen)
-        int button_width = 200;
-        int button_height = 50;
-        int button_x = (canvas_width - button_width) / 2;
-        int button_y = canvas_height / 2 + 60;
-
-        // Check if the restart button was clicked
-        if (mouseX >= button_x && mouseX <= button_x + button_width &&
-            mouseY >= button_y && mouseY <= button_y + button_height) {
-            restart_game();
-            return EM_TRUE;
-        }
-    } else if (shop_open) {
-        // Existing shop click handling code...
-        int mouseX = e->clientX;
-        int mouseY = e->clientY;
-
-        // Shop button dimensions
-        int button_width = 150;
-        int button_height = 40;
-        int button_x = (canvas_width - button_width) / 2;
-        int button_y_start = (canvas_height - 3 * button_height) / 2;
-
-        // Check which button was clicked
-        if (mouseX >= button_x && mouseX <= button_x + button_width) {
-            // Shield Upgrade Button
-            if (mouseY >= button_y_start && mouseY <= button_y_start + button_height) {
-                // Upgrade shield
-                player_ship.max_shield_hp += 10;
-                player_ship.shield_hp = player_ship.max_shield_hp;
-                shop_open = false; // Close shop after purchase
-                return EM_TRUE;
-            }
-            // Spike Damage Upgrade Button
-            else if (mouseY >= button_y_start + button_height + 10 && mouseY <= button_y_start + 2 * button_height + 10) {
-                // Upgrade spike damage
-                spike_damage_increase += 10.0;
-                shop_open = false; // Close shop after purchase
-                return EM_TRUE;
-            }
-            // Ship Fuel Upgrade Button (Not implemented)
-            else if (mouseY >= button_y_start + 2 * (button_height + 10) && mouseY <= button_y_start + 3 * button_height + 20) {
-                // For now, do nothing
-                shop_open = false; // Close shop after purchase
-                return EM_TRUE;
-            }
-        }
-    }
-    return EM_FALSE;
 }
 
 // Function to draw text on the canvas (corrected)
@@ -724,7 +618,7 @@ void update() {
         block.update();
     }
 
-    // Spawn blocks every 5 seconds if less than 5 blocks are alive
+    // Spawn spikes
     double current_time = emscripten_get_now();
     if (current_time - last_block_spawn_time >= 5000.0) { // 5000 milliseconds = 5 seconds
         if (blocks.size() < 5) {
@@ -733,18 +627,19 @@ void update() {
         }
     }
 
-    if (current_time - last_group_spawn_time >= 10000.0) {
-        if (random_enemy_qty == 0) {
-            // Generate a random value from the normal distribution and clamp it to the range [1, 10]
-            random_enemy_qty = std::clamp(static_cast<int>(std::round(normal_dist(gen))), 1, 10);
-            last_group_spawn_time = emscripten_get_now();
-        }
-        if (current_time - spawn_time > time_between_enemies && random_enemy_qty > 0) {
-            enemies.emplace_back(canvas_width - enemy_width / 2, canvas_height - ground_height - enemy_height / 2, enemy_speed);
-            spawn_time = emscripten_get_now();
-            random_enemy_qty -= 1;
-        }
-    }
+    // Spawn enemies
+    // if (current_time - last_group_spawn_time >= 10000.0) {
+    //     if (random_enemy_qty == 0) {
+    //         // Generate a random value from the normal distribution and clamp it to the range [1, 10]
+    //         random_enemy_qty = std::clamp(static_cast<int>(std::round(normal_dist(gen))), 1, 10);
+    //         last_group_spawn_time = emscripten_get_now();
+    //     }
+    //     if (current_time - spawn_time > time_between_enemies && random_enemy_qty > 0) {
+    //         enemies.emplace_back(canvas_width - enemy_width / 2, canvas_height - ground_height - enemy_height / 2, enemy_speed);
+    //         spawn_time = emscripten_get_now();
+    //         random_enemy_qty -= 1;
+    //     }
+    // }
 
     // Update enemies
     update_enemies();
@@ -813,6 +708,104 @@ void render() {
 void main_loop() {
     update();
     render();
+}
+
+// Input handling
+EM_BOOL keydown_callback(int eventType, const EmscriptenKeyboardEvent* e, void* userData) {
+    std::string key = e->key;
+
+    if (key == "ArrowUp") {
+        player_ship.isThrusting = true;
+    } else if (key == "ArrowLeft") {
+        player_ship.isThrustLeft = true;
+    } else if (key == "ArrowRight") {
+        player_ship.isThrustRight = true;
+    } else if (key == " " || key == "Space") { // Spacebar to release the block
+        if (attached_block != nullptr) {
+            attached_block->attached = false;
+            // Start cooldown counter
+            attached_block->cooldown_counter = 60; // 1 second at 60 FPS
+             // Compute the rope's end point velocities
+            double rope_end_vx = attached_block->vx;
+            double rope_end_vy = attached_block->vy;
+            // Set the block's velocity to match the rope's end point velocity
+            attached_block->vx = rope_end_vx;
+            attached_block->vy = rope_end_vy;
+            attached_block = nullptr;
+        }
+    } else if (key == "r") {
+        restart_game();
+    } else if (key == "t") {
+        enemies.emplace_back(canvas_width - enemy_width / 2, canvas_height - ground_height - enemy_height / 2, enemy_speed);
+    }
+    return EM_TRUE;
+}
+EM_BOOL keyup_callback(int eventType, const EmscriptenKeyboardEvent* e, void* userData) {
+    std::string key = e->key;
+
+    if (key == "ArrowUp") {
+        player_ship.isThrusting = false;
+    } else if (key == "ArrowLeft") {
+        player_ship.isThrustLeft = false;
+    } else if (key == "ArrowRight") {
+        player_ship.isThrustRight = false;
+    }
+    return EM_TRUE;
+}
+EM_BOOL mousedown_callback(int eventType, const EmscriptenMouseEvent* e, void* userData) {
+    if (player_ship.game_over) {
+        int mouseX = e->clientX;
+        int mouseY = e->clientY;
+
+        // Restart button dimensions (same as in draw_game_over_screen)
+        int button_width = 200;
+        int button_height = 50;
+        int button_x = (canvas_width - button_width) / 2;
+        int button_y = canvas_height / 2 + 60;
+
+        // Check if the restart button was clicked
+        if (mouseX >= button_x && mouseX <= button_x + button_width &&
+            mouseY >= button_y && mouseY <= button_y + button_height) {
+            restart_game();
+            return EM_TRUE;
+        }
+    } else if (shop_open) {
+        // Existing shop click handling code...
+        int mouseX = e->clientX;
+        int mouseY = e->clientY;
+
+        // Shop button dimensions
+        int button_width = 150;
+        int button_height = 40;
+        int button_x = (canvas_width - button_width) / 2;
+        int button_y_start = (canvas_height - 3 * button_height) / 2;
+
+        // Check which button was clicked
+        if (mouseX >= button_x && mouseX <= button_x + button_width) {
+            // Shield Upgrade Button
+            if (mouseY >= button_y_start && mouseY <= button_y_start + button_height) {
+                // Upgrade shield
+                player_ship.max_shield_hp += 10;
+                player_ship.shield_hp = player_ship.max_shield_hp;
+                shop_open = false; // Close shop after purchase
+                return EM_TRUE;
+            }
+            // Spike Damage Upgrade Button
+            else if (mouseY >= button_y_start + button_height + 10 && mouseY <= button_y_start + 2 * button_height + 10) {
+                // Upgrade spike damage
+                spike_damage_increase += 10.0;
+                shop_open = false; // Close shop after purchase
+                return EM_TRUE;
+            }
+            // Ship Fuel Upgrade Button (Not implemented)
+            else if (mouseY >= button_y_start + 2 * (button_height + 10) && mouseY <= button_y_start + 3 * button_height + 20) {
+                // For now, do nothing
+                shop_open = false; // Close shop after purchase
+                return EM_TRUE;
+            }
+        }
+    }
+    return EM_FALSE;
 }
 
 // Main function

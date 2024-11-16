@@ -122,15 +122,12 @@ const cols = 40
 	display: flex;
 	flex-direction: column;
 	}
-
 	.hex-row {
 	display: flex;
 	}
-
 	.hex-row.offset {
 	margin-left: calc(var(--hex-width) / 2 + var(--hex-spacing) / 2);
 	}
-
 	.hex {
 	width: var(--hex-width);
 	height: var(--hex-height);
@@ -145,16 +142,13 @@ const cols = 40
 	);
 	transition: transform 0.5s;
 	}
-
 	.hex:hover {
 	transform: scale(0.8); /* Shrink hexagon on hover */
 	}
-
 	/* Adjust spacing between hexagons in the same row */
 	.hex + .hex {
 	margin-left: var(--hex-spacing);
 	}
-
 	/* Adjust spacing between rows */
 	.hex-row + .hex-row {
 	margin-top: calc(var(--hex-height) * -0.2);

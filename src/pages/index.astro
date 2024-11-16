@@ -5,13 +5,16 @@ import { Image } from 'astro:assets';
 import JWST_Pic from '../images/JWST_GroupPicture.jpg';
 
 // Fetch the APOD data
-const NASA_API_KEY = import.meta.env.NASA_API_KEY;
-const APOD_URL = `https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}`;
+const APOD_URL = '/api/apod';
 const response = await fetch(APOD_URL);
 const data = await response.json();
+
 if (!response.ok) {
-  throw new Error(`Error fetching NASA APOD data: ${data.error?.message || response.statusText}`);
+  throw new Error(
+    `Error fetching NASA APOD data: ${data.error?.message || response.statusText}`
+  );
 }
+
 ---
 
 <Layout title="Home">
@@ -22,11 +25,11 @@ if (!response.ok) {
 				<p class="self-center">I am a Systems/Software engineer currently based out of San Luis Obpispo CA. My passion has always been for space and contributing to humanity's relentless charge of discovery.</p>
 			</div>
 			<div class="w-1/2">
-				<Image src={JWST_Pic} alt="A bird sitting on a nest of eggs." />
+				<Image class="shadow-xl shadow-zinc-600" src={JWST_Pic} alt="A bird sitting on a nest of eggs." />
 			</div>
 		</div>
-		<div class="flex gap-2 p-2 flex-col md:flex-row place-items-center">
-			<div>
+		<div class="flex gap-4 p-2 flex-col md:flex-row place-items-center">
+			<div class="shadow-xl shadow-zinc-600">
 				{data.media_type === 'image' ? (
 					<img src={data.url} alt={data.title} class=" max-w-sm" />
 				) : (
