@@ -11,7 +11,8 @@ permissions:
 jobs:
   update-apod:
     runs-on: ubuntu-latest
-
+    env:
+      NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -25,8 +26,6 @@ jobs:
         run: npm install
 
       - name: Fetch APOD data
-        env:
-          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
         run: |
           mkdir -p src/data
           curl "https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}" -o src/data/apod.json
