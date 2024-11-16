@@ -8,7 +8,7 @@ export default defineConfig({
   integrations: [tailwind()],
   // Vercel things
   output: 'static',
-  adapter: vercelStatic({
+  adapter: vercel({
     output: 'server', // Enable SSR
     adapter: vercel(), // Use the Vercel adapter
     webAnalytics: {
