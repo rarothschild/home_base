@@ -7,12 +7,7 @@ export default defineConfig({
   site: 'https://www.robrothschild.com',
   integrations: [tailwind()],
   // Vercel things
-  output: 'static',
+  output: 'server',
   adapter: vercel({
-    output: 'server', // Enable SSR
-    adapter: vercel(), // Use the Vercel adapter
-    webAnalytics: {
-      enabled: true,
-    },
   }),
 });
