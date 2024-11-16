@@ -27,6 +27,10 @@ jobs:
 
       - name: Fetch APOD data
         run: |
+          if [ -z "$NASA_API_KEY" ]; then
+            echo "NASA_API_KEY is not set"
+            exit 1
+          fi
           mkdir -p src/data
           curl "https://api.nasa.gov/planetary/apod?api_key=${NASA_API_KEY}" -o src/data/apod.json
 
