@@ -1,0 +1,40 @@
+name: Daily Update
+
+on:
+  schedule:
+    - cron: '0 5 * * *'  # Runs every day at 5:00 AM UTC
+
+jobs:
+  update-apod:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Fetch APOD data
+        env:
+          NASA_API_KEY: ${{ secrets.NASA_API_KEY }}
+        run: |
+          mkdir -p src/data
+          curl "https://api.nasa.gov/planetary/apod?api_key=$NASA_API_KEY" -o src/data/apod.json
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add src/data/apod.json
+          if git diff-index --quiet HEAD; then
+            echo "No changes to commit."
+          else
+            git commit -m "Update APOD data"
+            git push
+          fi
