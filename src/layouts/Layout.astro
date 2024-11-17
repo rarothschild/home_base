@@ -5,6 +5,7 @@ interface Props {
 
 const { title } = Astro.props;
 import Analytics from '@vercel/analytics/astro'
+import SpeedInsights from "@vercel/speed-insights/astro"
 
 import Hexagon from '../components/Hexagon.astro';
 import '../styles/global.css';
@@ -75,6 +76,7 @@ const cols = 40
 				</div>
 			))}
 		</div>
+		<SpeedInsights/>
 	</body>
 </html>
 <style is:global>
