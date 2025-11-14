@@ -11,31 +11,31 @@ console.log(data)
 
 <Layout title="Home">
 	<div class="flex flex-col p-2 gap-2 divide-y-2 divide-zinc-400">
-		<div class="flex gap-4 p-2 place-items-center">
-			<div class="flex flex-col gap-3 w-1/2 p-4 text-center">
+		<div class="grid md:grid-cols-2 gap-4 p-2 place-items-center">
+			<div class="flex flex-col gap-3 p-4 text-center">
 				<h3 class="font-bold text-2xl">Welcome to my portfolio website</h3>
-				<p class="self-center">I am a Systems/Software engineer currently based out of San Luis Obpispo CA. My passion has always been for space and contributing to humanity's relentless charge of discovery.</p>
+				<p class="self-center">I am a Systems & Software engineer currently based out of Bellingham WA. My passion has always been for space and contributing to humanity's relentless charge of discovery.</p>
 				<p class="self-center">Check out my portfolio to see my personal projects, including data analytics GUIs, games, and other content I've produced over the years.</p>
 			</div>
-			<div class="w-1/2">
+			<div class="">
 				<Image class="shadow-xl shadow-zinc-600" src={JWST_Pic} alt="A bird sitting on a nest of eggs." />
 			</div>
 		</div>
-		<div class="flex gap-4 p-2 flex-col md:flex-row place-items-center">
+		<div class="grid md:grid-cols-2 gap-4 p-2 place-items-center">
 			<div class="shadow-xl shadow-zinc-600">
 				{data.media_type === 'image' ? (
-					<img src={data.url} alt={data.title} class=" max-w-sm" />
+					<img src={data.url} alt={data.title} class="" />
 				) : (
 					<iframe
 					src={data.url}
 					title={data.title}
-					class="max-w-40 max-h-40"
+					class=""
 					></iframe>
 				)}
 			</div>
 			<div class="flex flex-col gap-1 ">
 				<p class="font-bold text-2xl">NASA's Astronomy Picture of the Day</p>
-				<h2>{data.date} - {data.title} </h2>
+				<h2 class="font-semibold">{data.date} -> {data.title} </h2>
 				<p>{data.explanation}</p>
 			</div>
 		</div>
