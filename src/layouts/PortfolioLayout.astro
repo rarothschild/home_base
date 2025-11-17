@@ -13,31 +13,19 @@ const portfolio_links = [
 ---
 
 <Layout title="Portfolio">
-	<div class="flex flex-col w-full h-full">
-		<div class="flex h-64 w-full shadow-md divide-x-2 divide-zinc-400 border-b-2 border-zinc-400">
-			<div class="flex flex-col">
-				<p class="p-1 px-3 font-bold text-base w-full bg-[#6f7175] shadow-md border-b border-zinc-400">
-					Pick an Item:
-				</p>
-				<nav style="background: #262e31"  class="flex flex-col w-96 h-full overflow-hidden
-							 p-2 gap-1 overflow-y-scroll">
-					{portfolio_links.map((link) => (
-					<a href={link.href}
-						class={`p-2 ' ${
-						currentPath === link.href ? 'font-bold  text-gray-700 bg-blue-300 ' : 'font-bold text-white bg-[#197bb8de]'
-						}`}
-					>
-						{link.label}
-					</a>
-					))}
-				</nav>
-			</div>
-			<div class="p-4 bg-zinc-700">
-				<slot name="description"></slot>
-			</div>
-		</div>
-		<div class="grid justify-items-center p-4 bg-zinc-500">
-			<slot></slot>
-		</div>
+	<div class="flex flex-col w-full h-full p-2">
+		<div class="flex items-center justify-between gap-2">
+            
+            <a
+                href='/portfolio'
+                class="inline-flex items-center rounded-md bg-orange-400 px-3 py-1 text-sm font-semibold text-black hover:bg-orange-300 transition-colors"
+            >
+                <span class="mr-1">&larr;</span>
+                Back to Portfolio
+            </a>
+        </div>
+        <main class="w-full h-full p-2">
+            <slot />
+        </main>
 	</div>
 </Layout>

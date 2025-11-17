@@ -10,6 +10,13 @@ import SpeedInsights from "@vercel/speed-insights/astro"
 import Hexagon from '../components/Hexagon.astro';
 import '../styles/global.css';
 
+const currentPath = Astro.url.pathname;
+const navLinks = [
+	{ href: '/', label: 'Home', match: (path: string) => path === '/' },
+	{ href: '/portfolio', label: 'Portfolio', match: (path: string) => path.startsWith('/portfolio') },
+	{ href: '/resume', label: 'Resume', match: (path: string) => path.startsWith('/resume') },
+];
+
 // Hexagon bacground props
 const rows = 4
 const cols = 40
@@ -31,36 +38,95 @@ const cols = 40
 		<title>{title}</title>
 	</head>
 	<body class="relative overflow-x-clip">
-		<div class="flex flex-col p-4 pt-8 w-full overflow-y-auto 
+		<div class="flex flex-col p-4 md:pt-6 w-full overflow-y-auto 
 					absolute left-1/2 transform -translate-x-1/2 max-w-5xl 
 					text-white z-10">
 			<!-- Header -->
-			<div class="flex justify-between w-full">
+			<header class="flex justify-between w-full mb-2 md:mb-0">
 				<!-- Name & Nav -->
-				<div class="flex place-items-end gap-6">
-					<h1 class="font-bold text-4xl text-black">Rob Rothschild</h1>
-					<nav class="flex border-2 border-b-0 border-zinc-300">
-						<a href="/" class="block px-4 py-0 font-bold text-lg
-							bg-stone-800 text-gray-200 hover:bg-gray-700 hover:text-white ">Home</a>
-						<a href="/portfolio/base_defender" class="block px-4 py-0 font-bold text-lg
-							bg-stone-800 text-gray-200 hover:bg-gray-700 hover:text-white ">Portfolio</a>
-						<a href="/resume" class="block px-4 py-0 font-bold text-lg
-							bg-stone-800 text-gray-200 hover:bg-gray-700 hover:text-white ">Resume</a>
+				<div class="flex items-end justify-between w-full gap-4 md:gap-6">
+					<h1 class="font-bold text-2xl md:text-4xl text-black">Rob Rothschild</h1>
+					<!-- Desktop Nav -->
+					<nav class="hidden md:flex border-2 border-b-0 border-zinc-300">
+						{navLinks.map((link) => {
+							const isActive = link.match(currentPath);
+							return (
+								<a
+									href={link.href}
+									class={`block px-4 py-0 font-bold text-lg text-gray-200 hover:bg-gray-500 hover:text-white transition-colors ${
+										isActive
+											? 'bg-orange-100 text-stone-900'
+											: 'bg-stone-800'
+									}`}
+								>
+									{link.label}
+								</a>
+							);
+						})}
 					</nav>
+					<!-- Icons -->
+					<div class="hidden md:flex gap-2 pb-1">
+						<a href="" class="w-6 h-6">
+							<span class="icon "><i class="fab fa-github fa-xl"></i></span>
+						</a>
+						<a href="" class="flex button is-small is-linkedin">
+							<span class="icon"><i class="fab fa-linkedin fa-xl"></i></span>
+						</a>
+						<a href="" class="flex button is-small is-instagram">
+							<span class="icon"><i class="fab fa-instagram fa-xl"></i></span>
+						</a>
+					</div>
 				</div>
-				<!-- Icons -->
-				<div class="flex gap-2 place-items-end">
-					<a href="" class="w-6 h-6">
-						<span class="icon "><i class="fab fa-github fa-xl"></i></span>
-					</a>
-					<a href="" class="flex button is-small is-linkedin">
-						<span class="icon"><i class="fab fa-linkedin fa-xl"></i></span>
-					</a>
-					<a href="" class="flex button is-small is-instagram">
-						<span class="icon"><i class="fab fa-instagram fa-xl"></i></span>
-					</a>
+				<!-- Mobile hamburger + icons -->
+				<div class="flex items-center justify-end gap-3 md:hidden mt-2">
+					<div class="flex gap-2">
+						<a href="" class="w-5 h-5">
+							<span class="icon "><i class="fab fa-github"></i></span>
+						</a>
+						<a href="" class="w-5 h-5">
+							<span class="icon"><i class="fab fa-linkedin"></i></span>
+						</a>
+						<a href="" class="w-5 h-5">
+							<span class="icon"><i class="fab fa-instagram"></i></span>
+						</a>
+					</div>
+					<button
+						type="button"
+						class="inline-flex items-center justify-center p-2 rounded-md border border-zinc-300 bg-stone-800 text-gray-200 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-800 focus:ring-white"
+						aria-controls="mobile-menu"
+						aria-expanded="false"
+						onclick="const m = document.getElementById('mobile-menu'); if (m) { const isHidden = m.classList.contains('hidden'); m.classList.toggle('hidden'); this.setAttribute('aria-expanded', isHidden ? 'true' : 'false'); }"
+					>
+						<span class="sr-only">Open main menu</span>
+						<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+						</svg>
+					</button>
 				</div>
-			</div>
+			</header>
+			<!-- Mobile menu -->
+			<nav
+				id="mobile-menu"
+				class="md:hidden my-2 border-2 border-zinc-300 bg-stone-900/95 backdrop-blur-sm hidden"
+			>
+				<ul class="flex flex-col">
+					{navLinks.map((link) => {
+						const isActive = link.match(currentPath);
+						return (
+							<li>
+								<a
+									href={link.href}
+									class={`block px-4 py-3 font-semibold text-base border-b border-zinc-700 last:border-b-0 bg-stone-800 text-gray-200 hover:bg-gray-700 hover:text-white transition-colors ${
+										isActive ? 'bg-gray-100 text-stone-900' : ''
+									}`}
+								>
+									{link.label}
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+			</nav>
 			<!-- Content -->
 			<main class="w-full border-2 z-10 shadow-2xl">
 				<slot />

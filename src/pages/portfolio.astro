@@ -1,15 +1,92 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
+
+// To add a new portfolio card, just add another object to this array.
+// href should point to a page under /src/pages/portfolio/.
+const portfolioItems = [
+	{
+		href: '/portfolio/lunar_defender',
+		title: 'Base Defender',
+		body: 'Arcade-style tower defense game where you protect your base from waves of enemies.',
+		thumbnail: '/images/lunar_defender/thumbnail.png',
+		stack: ['C++'],
+	},
+	{
+		href: '/portfolio/simulytics',
+		title: 'Simulytics',
+		body: 'Interactive analytics dashboards for exploring simulation and test data.',
+		thumbnail: '/images/simulytics/thumbnail.png',
+		stack: ['Python', 'Django', 'Sveltekit', 'Flask'],
+	},
+	{
+		href: '/portfolio/test_interface',
+		title: 'Test Interface',
+		body: 'Custom GUI for managing and running hardware and software tests.',
+		thumbnail: '/images/testInspector/thumbnail.png',
+		stack: ['MATLAB', 'Python', 'SQL'],
+	},
+	// {
+	// 	href: '/portfolio/stock_trading',
+	// 	title: 'Stock Trading Tools',
+	// 	body: 'Backtesting and visualization tools for quantitative trading strategies.',
+	// 	thumbnail: '/images/stock_trading_thumbnail.jpg',
+	// 	stack: ['Python', 'NumPy', 'Matplotlib'],
+	// },
+	{
+		href: '/portfolio/londonderry_quarry',
+		title: 'Londonderry Quarry',
+		body: 'Visualization and planning tools for quarry operations and production.',
+		thumbnail: '/images/londonderry_quarry/thumbnail.png',
+		stack: ['Astro'],
+	},
+];
 ---
 
-<Layout title="Welcome to Astro.">
-	<div class="flex gap-2">
-		<div class="flex flex-col gap-4 w-1/2">
-			<p class="font-bold text-lg">Check out some of my current or old projects</p>
-		</div>
-		<div class="w-1/2">
-			<img src="/images/JWST_GroupPicture.jpg" alt="Example Image" />
-		</div>
-	</div>
+<Layout title="Portfolio">
+	<section class="flex flex-col gap-4 p-4">
+		<header class="flex justify-center">
+			<p class="text-center text-sm md:text-base font-semibold text-zinc-200 max-w-2xl">
+				Welcome to my portfolio, a selection of games, tools, and interfaces I've built over the years.
+				Each card links to a dedicated page with more details and demos.
+			</p>
+		</header>
+
+		<ul class="grid gap-4 md:gap-6 md:grid-cols-2 xl:grid-cols-3">
+			{portfolioItems.map((item) => (
+				<li class="list-none">
+					<article class="h-full flex flex-col overflow-hidden rounded-lg bg-[#23262d] shadow-md shadow-zinc-900/60 border border-zinc-700">
+						<div class="h-48 w-full overflow-hidden bg-zinc-800">
+							<img
+								src={item.thumbnail}
+								alt={item.title}
+								loading="lazy"
+								class="h-full w-full object-cover"
+							/>
+						</div>
+						<div class="flex flex-col gap-2 p-4 flex-1">
+							<div class="flex items-center justify-between gap-2">
+								<h3 class="text-lg font-bold text-white">{item.title}</h3>
+								<a
+									href={item.href}
+									class="inline-flex items-center rounded-md bg-orange-400 px-3 py-1 text-sm font-semibold text-black hover:bg-orange-300 transition-colors"
+								>
+									View
+									<span class="ml-1">&rarr;</span>
+								</a>
+							</div>
+							<p class="text-sm text-zinc-200 flex-1">{item.body}</p>
+							<div class="flex flex-wrap gap-1 pt-1">
+								{item.stack.map((tech) => (
+									<span class="inline-flex items-center rounded-full border border-zinc-600 bg-zinc-800 px-2 py-0.5 text-xs font-medium text-zinc-100">
+										{tech}
+									</span>
+								))}
+							</div>
+						</div>
+					</article>
+				</li>
+			))}
+		</ul>
+	</section>
 </Layout>
