@@ -26,8 +26,11 @@ const cols = 40
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
-		<meta name="viewport" content="width=device-width" />
+		<meta
+			name="description"
+			content="Rob Rothschild – systems & software engineer building data analytics tools, scientific computing, simulation dashboards, and other endeauvers. Explore portfolio projects, resume/cv, and contact links."
+		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon-32x32.png" />
 		<link
 			rel="stylesheet"
@@ -35,7 +38,22 @@ const cols = 40
 			crossorigin="anonymous"
 		/>
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{title} | Rob Rothschild – Systems & Software Engineer</title>
+		<meta property="og:site_name" content="Rob Rothschild Portfolio" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content={title + ' | Rob Rothschild – Systems & Software Engineer'} />
+		<meta
+			property="og:description"
+			content="Portfolio of systems & software engineer Rob Rothschild"
+		/>
+		<meta property="og:url" content={Astro.url.toString()} />
+		<meta property="og:image" content="https://www.robrothschild.com/images/JWST_Pic.png" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title + ' | Rob Rothschild – Systems & Software Engineer'} />
+		<meta
+			name="twitter:description"
+			content="Portfolio of systems & software engineer Rob Rothschild"
+		/>
 	</head>
 	<body class="relative overflow-x-clip">
 		<div class="flex flex-col p-4 md:pt-6 w-full overflow-y-auto 
