@@ -1,1 +1,47 @@
-<!doctypehtml><html lang=en><head><meta charset=UTF-8><title>Lunar Lander</title><style>body{margin:0;overflow:hidden}</style></head><body><canvas id=canvas></canvas><script>var Module={canvas:function(){var n=document.getElementById("canvas");return n.width=window.innerWidth,n.height=window.innerHeight,n}()}</script><script async src=lunar_lander.js></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lunar Lander</title>
+    <style>
+      /* Center canvas inside the iframe and match game size */
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+      }
+
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      canvas {
+        /* Match C++ canvas size for a tight container */
+        width: 775px;
+        height: 400px;
+        display: block;
+        background: black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script>
+      // Use fixed logical size instead of window size
+      var Module = {
+        canvas: (function () {
+          var n = document.getElementById('canvas');
+          n.width = 775;
+          n.height = 400;
+          return n;
+        })(),
+      };
+    </script>
+    <script async src="lunar_lander.js"></script>
+  </body>
+</html>

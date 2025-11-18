@@ -1,5 +1,18 @@
 // lunar_lander.cpp
 
+// Sets to compile with Emscripten
+// 1) Make sure Emscripten is installed and activated
+// -> git clone https://github.com/emscripten-core/emsdk.git
+// -> cd emsdk
+// -> git pull
+// -> .\emsdk install latest
+// -> .\emsdk activate latest
+// 2) Any time a new terminal is opened, run:
+// -> cd PATH\TO\emsdk
+// -> .\emsdk_env.ps1
+// Compilte with:
+// -> emcc lunar_lander.cpp -O2 -sUSE_SDL=0 -sUSE_GLFW=0 -o lunar_lander.js
+
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #include <cmath>

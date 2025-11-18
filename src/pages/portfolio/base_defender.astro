@@ -3,10 +3,32 @@ import PortfoloLayout from '../../layouts/PortfolioLayout.astro';
 ---
 
 <PortfoloLayout title="Base Defender">
-	<div slot="description" class="flex flex-col p-2 gap-2">
-		<h1 class="font-bold text-xl">Base Defender</h1>
-		<p>Fly the ship to ram the enemies or block their way with the spikes. Don&apos;t let them reach your base!</p>
-		<p>This C++ game was a fun project to hone my skills and practice feedback and controls.</p>
-	</div>
-	<iframe src="/lunar_lander/lunar_lander.html" class="flex flex-col h-96 w-full justify-self-center"></iframe>
+    <div class="grid grid-cols-2">	
+        <div class="flex flex-col p-2 gap-2">
+            <h1 class="font-bold text-2xl text-center">Base Defender</h1>
+            <a
+                class="inline-flex w-fit items-center self-center rounded-md bg-orange-400 px-3 py-1 text-sm font-semibold text-black hover:bg-orange-300 transition-colors"
+                href="https://github.com/rarothschild/home_base/blob/main/public/lunar_lander"
+                target="_blank"
+                rel="noreferrer noopener"
+            >
+                View Source on GitHub
+            </a>
+            <p>Fly the ship to ram the enemies or block their way with the boxes. Don&apos;t let them reach your base!</p>
+            <p>Built in C++, this game utilizes Emscripten to convert the code into html usable on my site.</p>
+        </div>
+        <div class="flex flex-col items-center justify-center p-2">
+            <p class="font-semibold mb-2 text-lg underline">Controls:</p>
+            <ul class="list-disc space-y-1 text-sm">
+                <li>Arrow Up: thrust upward</li>
+                <li>Arrow Left / Right: move horizontally</li>
+                <li>Space Bar: drop obstacles currently connected to your red rope</li>
+            </ul>
+            <p class="font-semibold mt-2">Note: This game is currently just a test, press r to spawn enemies. Real levels coming soon!</p>
+        </div>
+    </div>
+    <iframe
+        src="/lunar_lander/lunar_lander.html"
+        class="flex flex-col h-[405px] w-[780px] justify-self-center"
+    ></iframe>
 </PortfoloLayout>
