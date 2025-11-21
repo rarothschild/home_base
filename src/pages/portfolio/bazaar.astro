@@ -1,0 +1,48 @@
+---
+import PortfoloLayout from '../../layouts/PortfolioLayout.astro';
+import { Fragment } from 'astro/jsx-runtime';
+
+---
+
+
+<PortfoloLayout title="Bazaar Market" webLink="https://bazaar-market.shop">
+    <div class="flex flex-col p-2 gap-2">
+        <p>
+            Bazaar Market is a fully operational web application that integrates a Django-powered
+            backend with a modern SvelteKit frontend, styled comprehensively with Tailwind CSS and
+            supported by a PostgreSQL database. The platform orchestrates product catalogs, user
+            accounts, and transactional workflows through Django views and REST-style endpoints,
+            which expose structured JSON responses that are consumed by SvelteKit routes and
+            components. Tailwind utility classes are applied throughout to maintain a consistent,
+            responsive design system while allowing fine-grained control over layout, typography,
+            and interactive states.
+        </p>
+        <p>
+            Persistent data is managed on Heroku using a hosted PostgreSQL instance, where
+            schema migrations are administered via Django's migration framework and operational
+            observability is assisted by the Heroku dashboard. Core business entities—such as
+            products, orders, and customer profiles—are stored in normalized relational tables and
+            queried using parameterized SQL generated through Django's ORM layer. This approach
+            ensures that complex filtering, aggregation, and transactional consistency are handled
+            efficiently, while still allowing hand-tuned SQL queries where necessary for performance
+            or reporting. Together, these technologies provide a cohesive, production-ready stack
+            for delivering a robust online marketplace experience.
+        </p>
+    </div>
+    <div class="w-full mt-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center">
+            <figure class="overflow-hidden rounded-lg shadow max-w-2xl">
+                <img src="/images/bazaar/thumbnail.png" alt="Bazaar product thumbnail" class="w-full h-auto object-cover">
+                <figcaption class="text-sm p-2">Sample product thumbnail as served to the storefront.</figcaption>
+            </figure>
+            <figure class="overflow-hidden rounded-lg shadow max-w-2xl">
+                <img src="/images/bazaar/dashboard.png" alt="Bazaar dashboard view" class="w-full h-auto object-cover">
+                <figcaption class="text-sm p-2">Administrative dashboard — product and order summaries.</figcaption>
+            </figure>
+            <figure class="overflow-hidden rounded-lg shadow max-w-2xl">
+                <img src="/images/bazaar/messaging.png" alt="Bazaar messaging interface" class="w-full h-auto object-cover">
+                <figcaption class="text-sm p-2">Messaging and notifications interface for customer interactions.</figcaption>
+            </figure>
+        </div>
+    </div>
+</PortfoloLayout>
