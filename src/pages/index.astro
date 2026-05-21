@@ -3,15 +3,15 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import JWST_Pic from '../images/JWST_Pic.png';
+import CurrentProjectsPanel from '../components/CurrentProjectsPanel.astro';
 
 // Fetch the APOD data
 import data from '../data/apod.json';
-console.log(data)
 ---
 
 <Layout title="Home">
-	<div class="flex flex-col p-2 gap-2 divide-y-2 divide-zinc-400">
-		<div class="grid md:grid-cols-2 gap-4 p-2 place-items-center">
+	<div class="flex flex-col gap-2 ">
+		<div class="panel-1 grid md:grid-cols-2 gap-4 p-2 place-items-center">
 			<div class="flex flex-col gap-3 p-4 text-center">
 				<h1 class="!font-bold !text-2xl !mb-2">Welcome to my Portfolio</h1>
 				<p class="self-center">
@@ -31,82 +31,26 @@ console.log(data)
 				<Image class="" src={JWST_Pic} alt="A bird sitting on a nest of eggs." />
 			</div>
 		</div>
-		<div class="grid md:grid-cols-2 gap-4 p-2 place-items-center">
-			<div class="">
-				{data.media_type === 'image' ? (
-					<img src={data.url} alt={data.title} class="" />
-				) : (
-					<iframe
-					src={data.url}
-					title={data.title}
-					class=""
-					></iframe>
-				)}
-			</div>
-			<div class="flex flex-col gap-1 ">
-				<p class="font-bold text-2xl">NASA's Astronomy Picture of the Day</p>
-				<h2 class="font-semibold">{data.date} -> {data.title} </h2>
-				<p>{data.explanation}</p>
-			</div>
+		<div class="grid md:grid-cols-2 gap-2">
+	            <CurrentProjectsPanel />
+	            <div class="panel-1 self-start">
+                <div class="rounded-t-lg">
+                    {data.media_type === 'image' ? (
+                        <img src={data.url} alt={data.title} class="rounded-t-lg" />
+                    ) : (
+                        <iframe
+                        src={data.url}
+                        title={data.title}
+                        class="rounded-t-lg"
+                        ></iframe>
+                    )}
+                </div>
+                <div class="flex flex-col gap-1">
+                    <p class="text-center font-bold text-2xl">NASA's Astronomy Picture of the Day</p>
+                    <h2 class="text-center font-semibold">{data.date} -> {data.title} </h2>
+                    <p class="p-2 pt-0">{data.explanation}</p>
+                </div>
+            </div>
 		</div>
 	</div>
 </Layout>
-
-<style>
-	main {
-		margin: auto;
-		padding: 1rem;
-		width: 800px;
-		max-width: calc(100% - 2rem);
-		color: white;
-		font-size: 20px;
-		line-height: 1.6;
-	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
-	}
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		margin-bottom: 2rem;
-		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
-		padding: 1.5rem;
-		border-radius: 8px;
-	}
-	.instructions code {
-		font-size: 0.8em;
-		font-weight: bold;
-		background: rgba(var(--accent-light), 12%);
-		color: rgb(var(--accent-light));
-		border-radius: 4px;
-		padding: 0.3em 0.4em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent-light));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 2rem;
-		padding: 0;
-	}
-</style>

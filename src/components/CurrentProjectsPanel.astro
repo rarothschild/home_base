@@ -1,0 +1,515 @@
+---
+const allProjects = [
+	{
+		id: 'bazaar',
+		title: 'Bazaar Market',
+		mini: 'Marketplace platform',
+		status: 'Full-stack commerce',
+		href: '/portfolio/bazaar',
+		thumbnail: '/images/bazaar/thumbnail.png',
+		imageAlt: 'Bazaar Market storefront preview',
+		summary: 'An asset ecosystem to manage, maintain, and market things likes, outdoors gear, vehicles, and other high-value used goods.',
+		stack: ['SvelteKit', 'Django', 'PostgreSQL', 'TailwindCSS'],
+		cta: 'Explore marketplace build',
+		category: 'Web Dev',
+		categoryId: 'web-dev',
+	},
+	{
+		id: 'test-interface',
+		title: 'Test Interface',
+		mini: 'Hardware test GUI',
+		status: 'Lab workflow tooling',
+		href: '/portfolio/test_interface',
+		thumbnail: '/images/testInspector/thumbnail.png',
+		imageAlt: 'Testing dashboard thumbnail',
+		summary: 'A custom dashboard for comparing collected test data against model predictions and engineering expectations.',
+		stack: ['MATLAB', 'Python', 'SQL', 'Signal Processing'],
+		cta: 'Open testing dashboard',
+		category: 'Robotics',
+		categoryId: 'robotics',
+	},
+	{
+		id: 'base-defender',
+		title: 'Base Defender',
+		mini: 'Physics + control gameplay',
+		status: 'C++ prototype',
+		href: '/portfolio/base_defender',
+		thumbnail: '/images/lunar_defender/thumbnail.png',
+		imageAlt: 'Base Defender game thumbnail',
+		summary: 'An arcade-style C++ project focused on moment-to-moment control, collision, and responsive gameplay systems.',
+		stack: ['C++', 'Emscripten', 'Gameplay Systems'],
+		cta: 'Launch Base Defender',
+		category: 'Robotics',
+		categoryId: 'robotics',
+	},
+	{
+		id: 'simulytics',
+		title: 'Simulytics',
+		mini: 'Modeling dashboard',
+		status: 'Analytics platform',
+		href: '/portfolio/simulytics',
+		thumbnail: '/images/simulytics/thumbnail.png',
+		imageAlt: 'Simulytics dashboard thumbnail',
+		summary: 'An interactive modeling and analysis dashboard built to make simulation outputs easier to inspect and compare.',
+		stack: ['Python', 'Django', 'SvelteKit', 'Flask'],
+		cta: 'Explore Simulytics',
+		category: 'Engineering',
+		categoryId: 'engineering',
+	},
+	
+    {
+		id: 'londonderry',
+		title: 'Londonderry Quarry',
+		mini: 'Site + visualization work',
+		status: 'Brand + planning site',
+		href: '/portfolio/londonderry_quarry',
+		thumbnail: '/images/londonderry_quarry/thumbnail.png',
+		imageAlt: 'Londonderry Quarry project thumbnail',
+		summary: 'An early client-facing website built to present a Pacific Northwest sculptor and quarry operation online.',
+		stack: ['Astro', 'Static Site Design', 'Content Structure'],
+		cta: 'View quarry project',
+		category: 'Web Dev',
+		categoryId: 'web-dev',
+	},
+];
+---
+
+<section class="panel-1 project-browser" data-project-browser>
+	<div class="project-browser__head">
+		<p class="project-browser__eyebrow">Current Projects</p>
+		<div class="project-browser__controls">
+			<button type="button" class="project-browser__arrow" data-project-nav="prev" aria-label="Previous project">
+				<span aria-hidden="true">←</span>
+			</button>
+			<span class="project-browser__count" data-project-counter>1 / {allProjects.length}</span>
+			<button type="button" class="project-browser__arrow" data-project-nav="next" aria-label="Next project">
+				<span aria-hidden="true">→</span>
+			</button>
+		</div>
+	</div>
+
+	<div class="project-browser__subtabs" role="tablist" aria-label="Current projects carousel">
+		{allProjects.map((project, projectIndex) => (
+			<button
+				type="button"
+				class="project-browser__thumb"
+				id={`project-thumb-${project.id}`}
+				data-project-tab={project.id}
+				role="tab"
+				aria-controls={`project-card-${project.id}`}
+				aria-selected={projectIndex === 0 ? 'true' : 'false'}
+				tabindex={projectIndex === 0 ? '0' : '-1'}
+			>
+				<span class="project-browser__thumb-media-wrap">
+					<img
+						src={project.thumbnail}
+						alt={project.imageAlt}
+						loading="lazy"
+						class="project-browser__thumb-media"
+					/>
+				</span>
+				<span class="project-browser__thumb-copy">
+					<span class="project-browser__thumb-title">{project.title}</span>
+					<span class="project-browser__thumb-meta">{project.category} · {project.mini}</span>
+				</span>
+			</button>
+		))}
+	</div>
+
+	<div class="project-browser__cards">
+		{allProjects.map((project, projectIndex) => (
+			<article
+				class="project-browser__card"
+				id={`project-card-${project.id}`}
+				data-project-card={project.id}
+				role="tabpanel"
+				aria-labelledby={`project-thumb-${project.id}`}
+				hidden={projectIndex !== 0}
+			>
+				<div class="project-browser__content">
+					<h3 class="project-browser__card-title">{project.title}</h3>
+					<a href={project.href} class="project-browser__cta">
+						{project.cta}
+						<span aria-hidden="true">→</span>
+					</a>
+					<div class="project-browser__stack">
+						<span class="project-browser__category">{project.category}</span>
+						<span class="project-browser__status">{project.status}</span>
+						{project.stack.map((item) => (
+							<span class="project-browser__stack-item">{item}</span>
+						))}
+					</div>
+					<p class="project-browser__summary">{project.summary}</p>
+					<div class="project-browser__media-wrap">
+						<img
+							src={project.thumbnail}
+							alt={project.imageAlt}
+							loading="lazy"
+							class="project-browser__media"
+						/>
+					</div>
+				</div>
+			</article>
+		))}
+	</div>
+</section>
+
+<script>
+	const browsers = document.querySelectorAll<HTMLElement>('[data-project-browser]');
+
+	browsers.forEach((browser) => {
+		const projectButtons = Array.from(browser.querySelectorAll<HTMLButtonElement>('[data-project-tab]'));
+		const projectCards = Array.from(browser.querySelectorAll<HTMLElement>('[data-project-card]'));
+		const counter = browser.querySelector<HTMLElement>('[data-project-counter]');
+		const prevButton = browser.querySelector<HTMLButtonElement>('[data-project-nav="prev"]');
+		const nextButton = browser.querySelector<HTMLButtonElement>('[data-project-nav="next"]');
+
+		const activateProject = (projectId?: string) => {
+			const nextIndex = projectButtons.findIndex((button) => button.dataset.projectTab === projectId);
+			const activeIndex = nextIndex >= 0 ? nextIndex : 0;
+			const activeButton = projectButtons[activeIndex];
+
+			projectButtons.forEach((button, index) => {
+				const isActive = index === activeIndex;
+				button.setAttribute('aria-selected', String(isActive));
+				button.tabIndex = isActive ? 0 : -1;
+			});
+
+			projectCards.forEach((card, index) => {
+				card.hidden = index !== activeIndex;
+			});
+
+			if (counter) {
+				counter.textContent = `${activeIndex + 1} / ${projectButtons.length}`;
+			}
+
+			activeButton?.scrollIntoView({
+				behavior: 'smooth',
+				block: 'nearest',
+				inline: 'center',
+			});
+		};
+
+		projectButtons.forEach((button, index) => {
+			button.addEventListener('click', () => activateProject(button.dataset.projectTab));
+			button.addEventListener('keydown', (event: KeyboardEvent) => {
+				if (!['ArrowRight', 'ArrowLeft', 'Home', 'End'].includes(event.key)) return;
+				event.preventDefault();
+
+				if (event.key === 'Home') {
+					activateProject(projectButtons[0]?.dataset.projectTab);
+					projectButtons[0]?.focus();
+					return;
+				}
+
+				if (event.key === 'End') {
+					const lastButton = projectButtons[projectButtons.length - 1];
+					activateProject(lastButton?.dataset.projectTab);
+					lastButton?.focus();
+					return;
+				}
+
+				const direction = event.key === 'ArrowRight' ? 1 : -1;
+				const nextIndex = (index + direction + projectButtons.length) % projectButtons.length;
+				const nextButton = projectButtons[nextIndex];
+				activateProject(nextButton.dataset.projectTab);
+				nextButton.focus();
+			});
+		});
+
+		const cycleProjects = (direction: number) => {
+			const activeIndex = projectButtons.findIndex((button) => button.getAttribute('aria-selected') === 'true');
+			const currentIndex = activeIndex >= 0 ? activeIndex : 0;
+			const nextIndex = (currentIndex + direction + projectButtons.length) % projectButtons.length;
+			activateProject(projectButtons[nextIndex].dataset.projectTab);
+		};
+
+		prevButton?.addEventListener('click', () => cycleProjects(-1));
+		nextButton?.addEventListener('click', () => cycleProjects(1));
+
+		activateProject(projectButtons[0]?.dataset.projectTab);
+	});
+</script>
+
+<style>
+	.project-browser {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		padding: 1rem;
+		box-shadow:
+			0 18px 40px rgba(15, 23, 42, 0.24),
+			inset 0 1px 0 rgba(255, 255, 255, 0.04);
+	}
+
+	.project-browser__head {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		gap: 0.85rem;
+	}
+
+	.project-browser__eyebrow {
+		margin: 0;
+		font-size: 1rem;
+		font-weight: 800;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: #fdba74;
+	}
+
+	.project-browser__summary {
+		margin: 0;
+		color: rgba(231, 229, 228, 0.92);
+		line-height: 1.65;
+	}
+
+	.project-browser__card[hidden] {
+		display: none !important;
+	}
+
+	.project-browser__controls {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		padding: 0.35rem;
+		border: 1px solid rgba(251, 146, 60, 0.16);
+		border-radius: 9999px;
+		background: rgba(28, 25, 23, 0.66);
+	}
+
+	.project-browser__arrow {
+		width: 2.2rem;
+		height: 2.2rem;
+		border: 0;
+		border-radius: 9999px;
+		background: linear-gradient(180deg, rgba(251, 191, 36, 0.2) 0%, rgba(234, 88, 12, 0.18) 100%);
+		color: #fff7ed;
+		font-size: 1rem;
+		font-weight: 700;
+		transition:
+			transform 180ms ease,
+			background 180ms ease,
+			box-shadow 180ms ease;
+	}
+
+	.project-browser__arrow:hover,
+	.project-browser__arrow:focus-visible {
+		transform: translateY(-1px) scale(1.04);
+		background: linear-gradient(180deg, rgba(251, 191, 36, 0.28) 0%, rgba(249, 115, 22, 0.32) 100%);
+		box-shadow: 0 10px 20px rgba(124, 45, 18, 0.22);
+	}
+
+	.project-browser__count {
+		min-width: 4rem;
+		text-align: center;
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: #fed7aa;
+	}
+
+	.project-browser__subtabs {
+		display: grid;
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(155px, 180px);
+		gap: 0.75rem;
+		overflow-x: auto;
+		padding-bottom: 0.35rem;
+		scroll-snap-type: x proximity;
+	}
+
+	.project-browser__thumb {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		padding: 0.55rem;
+		border-radius: 1rem;
+		border: 1px solid rgba(120, 113, 108, 0.45);
+		background: linear-gradient(180deg, rgba(41, 37, 36, 0.96) 0%, rgba(28, 25, 23, 0.98) 100%);
+		color: #f5f5f4;
+		text-align: left;
+		scroll-snap-align: start;
+		transition:
+			transform 220ms ease,
+			border-color 220ms ease,
+			background 220ms ease,
+			box-shadow 220ms ease;
+	}
+
+	.project-browser__thumb:hover,
+	.project-browser__thumb:focus-visible {
+		transform: translateY(-2px);
+		border-color: rgba(251, 146, 60, 0.55);
+		box-shadow: 0 14px 26px rgba(15, 23, 42, 0.18);
+	}
+
+	.project-browser__thumb[aria-selected='true'] {
+		border-color: rgba(253, 186, 116, 0.8);
+		background: linear-gradient(180deg, rgba(251, 191, 36, 0.18) 0%, rgba(120, 53, 15, 0.32) 100%);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.08),
+			0 10px 24px rgba(124, 45, 18, 0.24);
+	}
+
+	.project-browser__thumb-media-wrap {
+		overflow: hidden;
+		display: block;
+		aspect-ratio: 16 / 10;
+		border-radius: 0.75rem;
+		border: 1px solid rgba(255, 237, 213, 0.08);
+		background: rgba(28, 25, 23, 0.72);
+	}
+
+	.project-browser__thumb-media {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.project-browser__thumb-copy {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		padding: 0 0.1rem 0.15rem;
+	}
+
+	.project-browser__thumb-title {
+		font-size: 1rem;
+		font-weight: 800;
+	}
+
+	.project-browser__thumb-meta {
+		font-size: 0.83rem;
+		color: #d6d3d1;
+	}
+
+	.project-browser__subtabs::-webkit-scrollbar {
+		height: 10px;
+	}
+
+	.project-browser__subtabs::-webkit-scrollbar-track {
+		background: rgba(28, 25, 23, 0.35);
+		border-radius: 9999px;
+	}
+
+	.project-browser__subtabs::-webkit-scrollbar-thumb {
+		background: linear-gradient(180deg, rgba(251, 191, 36, 0.45), rgba(234, 88, 12, 0.55));
+		border-radius: 9999px;
+	}
+
+	.project-browser__cards {
+		display: grid;
+	}
+
+	.project-browser__card {
+		display: block;
+		padding: 0.95rem;
+		border-radius: 1.25rem;
+		border: 1px solid rgba(251, 146, 60, 0.14);
+		background:
+			radial-gradient(circle at top left, rgba(251, 191, 36, 0.1), transparent 30%),
+			linear-gradient(180deg, rgba(41, 37, 36, 0.96) 0%, rgba(24, 24, 27, 0.98) 100%);
+	}
+
+	.project-browser__media-wrap {
+		overflow: hidden;
+		border-radius: 1rem;
+		min-height: 240px;
+		background: rgba(28, 25, 23, 0.6);
+		border: 1px solid rgba(255, 237, 213, 0.08);
+	}
+
+	.project-browser__media {
+		display: block;
+		width: 100%;
+		height: auto;
+		object-fit: cover;
+	}
+
+	.project-browser__content {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.project-browser__category {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.35rem 0.7rem;
+		border-radius: 9999px;
+		background: rgba(255, 237, 213, 0.1);
+		border: 1px solid rgba(255, 237, 213, 0.2);
+		font-size: 0.82rem;
+		font-weight: 700;
+		color: #ffedd5;
+	}
+
+	.project-browser__status {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.35rem 0.7rem;
+		border-radius: 9999px;
+		background: rgba(251, 191, 36, 0.14);
+		border: 1px solid rgba(253, 186, 116, 0.28);
+		font-size: 0.82rem;
+		font-weight: 700;
+		color: #fdba74;
+	}
+
+	.project-browser__cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: #ffedd5;
+		font-weight: 700;
+		text-decoration: none;
+		transition: gap 180ms ease, color 180ms ease;
+	}
+
+	.project-browser__cta:hover,
+	.project-browser__cta:focus-visible {
+		gap: 0.55rem;
+		color: #fdba74;
+	}
+
+	.project-browser__card-title {
+		margin: 0;
+		font-size: clamp(1.4rem, 3vw, 1.9rem);
+		line-height: 1.1;
+		color: #fff7ed;
+	}
+
+	.project-browser__stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem;
+	}
+
+	.project-browser__stack-item {
+		display: inline-flex;
+		align-items: center;
+		padding: 0.35rem 0.65rem;
+		border-radius: 9999px;
+		border: 1px solid rgba(120, 113, 108, 0.5);
+		background: rgba(39, 39, 42, 0.88);
+		font-size: 0.8rem;
+		font-weight: 600;
+		color: #e7e5e4;
+	}
+
+	@media (max-width: 640px) {
+		.project-browser {
+			padding: 0.85rem;
+		}
+
+		.project-browser__head {
+			align-items: stretch;
+		}
+
+		.project-browser__controls {
+			justify-content: space-between;
+		}
+	}
+</style>
