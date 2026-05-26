@@ -1,77 +1,5 @@
 ---
-const allProjects = [
-	{
-		id: 'bazaar',
-		title: 'Bazaar Market',
-		mini: 'Marketplace platform',
-		status: 'Full-stack commerce',
-		href: '/portfolio/bazaar',
-		thumbnail: '/images/bazaar/thumbnail.png',
-		imageAlt: 'Bazaar Market storefront preview',
-		summary: 'An asset ecosystem to manage, maintain, and market things likes, outdoors gear, vehicles, and other high-value used goods.',
-		stack: ['SvelteKit', 'Django', 'PostgreSQL', 'TailwindCSS'],
-		cta: 'Explore marketplace build',
-		category: 'Web Dev',
-		categoryId: 'web-dev',
-	},
-	{
-		id: 'test-interface',
-		title: 'Test Interface',
-		mini: 'Hardware test GUI',
-		status: 'Lab workflow tooling',
-		href: '/portfolio/test_interface',
-		thumbnail: '/images/testInspector/thumbnail.png',
-		imageAlt: 'Testing dashboard thumbnail',
-		summary: 'A custom dashboard for comparing collected test data against model predictions and engineering expectations.',
-		stack: ['MATLAB', 'Python', 'SQL', 'Signal Processing'],
-		cta: 'Open testing dashboard',
-		category: 'Robotics',
-		categoryId: 'robotics',
-	},
-	{
-		id: 'base-defender',
-		title: 'Base Defender',
-		mini: 'Physics + control gameplay',
-		status: 'C++ prototype',
-		href: '/portfolio/base_defender',
-		thumbnail: '/images/lunar_defender/thumbnail.png',
-		imageAlt: 'Base Defender game thumbnail',
-		summary: 'An arcade-style C++ project focused on moment-to-moment control, collision, and responsive gameplay systems.',
-		stack: ['C++', 'Emscripten', 'Gameplay Systems'],
-		cta: 'Launch Base Defender',
-		category: 'Robotics',
-		categoryId: 'robotics',
-	},
-	{
-		id: 'simulytics',
-		title: 'Simulytics',
-		mini: 'Modeling dashboard',
-		status: 'Analytics platform',
-		href: '/portfolio/simulytics',
-		thumbnail: '/images/simulytics/thumbnail.png',
-		imageAlt: 'Simulytics dashboard thumbnail',
-		summary: 'An interactive modeling and analysis dashboard built to make simulation outputs easier to inspect and compare.',
-		stack: ['Python', 'Django', 'SvelteKit', 'Flask'],
-		cta: 'Explore Simulytics',
-		category: 'Engineering',
-		categoryId: 'engineering',
-	},
-	
-    {
-		id: 'londonderry',
-		title: 'Londonderry Quarry',
-		mini: 'Site + visualization work',
-		status: 'Brand + planning site',
-		href: '/portfolio/londonderry_quarry',
-		thumbnail: '/images/londonderry_quarry/thumbnail.png',
-		imageAlt: 'Londonderry Quarry project thumbnail',
-		summary: 'An early client-facing website built to present a Pacific Northwest sculptor and quarry operation online.',
-		stack: ['Astro', 'Static Site Design', 'Content Structure'],
-		cta: 'View quarry project',
-		category: 'Web Dev',
-		categoryId: 'web-dev',
-	},
-];
+import { featuredProjects as allProjects } from '../data/projects';
 ---
 
 <section class="panel-1 project-browser" data-project-browser>
@@ -93,10 +21,10 @@ const allProjects = [
 			<button
 				type="button"
 				class="project-browser__thumb"
-				id={`project-thumb-${project.id}`}
-				data-project-tab={project.id}
+				id={`project-thumb-${project.slug}`}
+				data-project-tab={project.slug}
 				role="tab"
-				aria-controls={`project-card-${project.id}`}
+				aria-controls={`project-card-${project.slug}`}
 				aria-selected={projectIndex === 0 ? 'true' : 'false'}
 				tabindex={projectIndex === 0 ? '0' : '-1'}
 			>
@@ -120,18 +48,25 @@ const allProjects = [
 		{allProjects.map((project, projectIndex) => (
 			<article
 				class="project-browser__card"
-				id={`project-card-${project.id}`}
-				data-project-card={project.id}
+				id={`project-card-${project.slug}`}
+				data-project-card={project.slug}
 				role="tabpanel"
-				aria-labelledby={`project-thumb-${project.id}`}
+				aria-labelledby={`project-thumb-${project.slug}`}
 				hidden={projectIndex !== 0}
 			>
 				<div class="project-browser__content">
 					<h3 class="project-browser__card-title">{project.title}</h3>
-					<a href={project.href} class="project-browser__cta">
-						{project.cta}
-						<span aria-hidden="true">→</span>
-					</a>
+					{project.external_url && project.cta && (
+						<a
+							href={project.external_url}
+							class="project-browser__cta"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{project.cta}
+							<span aria-hidden="true">↗</span>
+						</a>
+					)}
 					<div class="project-browser__stack">
 						<span class="project-browser__category">{project.category}</span>
 						<span class="project-browser__status">{project.status}</span>

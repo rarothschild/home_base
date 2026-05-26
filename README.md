@@ -2,6 +2,8 @@
 
 Welcome! This is the codebase for my personal portfolio website, built with [Astro](https://astro.build). It showcases my projects, experience, and interests in a fast, modern, and content-focused way.
 
+The published project browsing experience now lives on the home page. Projects only open a new page when an `external_url` is present in [src/data/projects.ts](src/data/projects.ts).
+
 ---
 
 ## 🚀 Tech Stack

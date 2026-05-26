@@ -9,48 +9,57 @@ import CurrentProjectsPanel from '../components/CurrentProjectsPanel.astro';
 import data from '../data/apod.json';
 ---
 
-<Layout title="Home">
-	<div class="flex flex-col gap-2 ">
-		<div class="panel-1 grid md:grid-cols-2 gap-4 p-2 place-items-center">
-			<div class="flex flex-col gap-3 p-4 text-center">
-				<h1 class="!font-bold !text-2xl !mb-2">Welcome to my Portfolio</h1>
+<Layout
+	title="Home"
+	description="Portfolio site for Rob Rothschild featuring software, simulation, analytics, and engineering project case studies."
+	image={JWST_Pic.src}
+	imageAlt="Rob Rothschild standing with teammates beside the James Webb Space Telescope during testing."
+>
+	<div class="flex flex-col gap-3">
+		<section class="panel-1 grid gap-6 p-4 place-items-center md:grid-cols-[1.1fr_0.9fr] md:p-6">
+			<div class="flex flex-col gap-4 p-2 text-center md:text-left">
+				<p class="text-sm font-semibold uppercase tracking-[0.3em] text-orange-200">Systems + Software</p>
+				<h1 class="!mb-0 !text-3xl !font-bold md:!text-5xl">Engineering tools with a product mindset</h1>
 				<p class="self-center">
 					I&apos;m Rob Rothschild, a systems & software engineer in Bellingham, WA, focused on simulation, data
 					analytics, and interactive tools for hardware and test systems.
 				</p>
 				<p class="self-center">
-					Explore some of my projects including: C++ games, Python and MATLAB data-analytics GUIs, and modern web apps built with Astro,
+					Explore projects across C++ gameplay, Python and MATLAB data-analysis tools, and modern web apps built with Astro,
 					Django, and SvelteKit.
 				</p>
-				<p class="self-center font-semibold">
-					Head to the <a href="/portfolio" class="text-orange-300 underline">portfolio</a> to dive into
-					selected projects.
-				</p>
+				<div class="flex flex-wrap justify-center gap-3 md:justify-start">
+					<a href="#featured-projects" class="inline-flex items-center rounded-md bg-orange-400 px-4 py-2 font-semibold text-black transition-colors hover:bg-orange-300">Explore Projects</a>
+					<a href="/resume" class="inline-flex items-center rounded-md border border-zinc-200/40 bg-stone-950/40 px-4 py-2 font-semibold text-stone-100 transition-colors hover:bg-stone-900/70">Open Resume</a>
+				</div>
 			</div>
-			<div class="">
-				<Image class="" src={JWST_Pic} alt="A bird sitting on a nest of eggs." />
+			<div class="overflow-hidden rounded-2xl border border-stone-200/15 shadow-2xl">
+				<Image src={JWST_Pic} alt="Rob Rothschild standing with teammates beside the James Webb Space Telescope during testing." />
 			</div>
-		</div>
-		<div class="grid md:grid-cols-2 gap-2">
-	            <CurrentProjectsPanel />
-	            <div class="panel-1 self-start">
+		</section>
+		<div class="grid gap-3 md:grid-cols-2">
+	            <section id="featured-projects">
+	            	<CurrentProjectsPanel />
+	            </section>
+	            <section class="panel-1 self-start">
                 <div class="rounded-t-lg">
                     {data.media_type === 'image' ? (
-                        <img src={data.url} alt={data.title} class="rounded-t-lg" />
+	                        <img src={data.url} alt={data.title} class="rounded-t-lg" loading="lazy" />
                     ) : (
                         <iframe
                         src={data.url}
                         title={data.title}
+	                        loading="lazy"
                         class="rounded-t-lg"
                         ></iframe>
                     )}
                 </div>
                 <div class="flex flex-col gap-1">
                     <p class="text-center font-bold text-2xl">NASA's Astronomy Picture of the Day</p>
-                    <h2 class="text-center font-semibold">{data.date} -> {data.title} </h2>
+	                    <h2 class="text-center font-semibold">{data.date} | {data.title}</h2>
                     <p class="p-2 pt-0">{data.explanation}</p>
                 </div>
-            </div>
+	            </section>
 		</div>
 	</div>
 </Layout>
