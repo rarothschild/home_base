@@ -34,3 +34,9 @@ All commands are run from the root of the project, from a terminal:
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `npm run astro -- --help` | Get help using the Astro CLI                     |
+
+## Deployment Notes
+
+Vercel should build this site from source using `npm run build`.
+
+Do not commit `.vercel/output` or other generated deployment artifacts. If those files are checked in and Vercel is configured to deploy a static output directory, it can serve stale HTML/CSS/JS even when the source files under `src/` have changed.
