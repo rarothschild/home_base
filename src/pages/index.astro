@@ -42,15 +42,20 @@ import data from '../data/apod.json';
 	            	<CurrentProjectsPanel />
 	            </section>
 	            <section class="panel-1 self-start">
-                <div class="rounded-t-lg">
+	                <div class="overflow-hidden rounded-2xl border border-stone-200/15 bg-stone-950/30 p-2 shadow-2xl">
                     {data.media_type === 'image' ? (
-	                        <img src={data.url} alt={data.title} class="rounded-t-lg" loading="lazy" />
+	                        <img
+	                        	src={data.url}
+	                        	alt={data.title}
+	                        	class="mx-auto max-h-[24rem] w-full rounded-xl object-contain md:max-h-[28rem]"
+	                        	loading="lazy"
+	                        />
                     ) : (
                         <iframe
                         src={data.url}
                         title={data.title}
 	                        loading="lazy"
-                        class="rounded-t-lg"
+	                        class="h-[22rem] w-full rounded-xl border-0 md:h-[26rem]"
                         ></iframe>
                     )}
                 </div>
